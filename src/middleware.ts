@@ -5,7 +5,7 @@ const rateLimit = new Map<string, { count: number; resetTime: number }>();
 
 const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
 const RATE_LIMIT_MAX = 100; // requests per window
-const LOGIN_RATE_LIMIT_MAX = 5; // login attempts per window
+const LOGIN_RATE_LIMIT_MAX = 20; // login attempts per window
 
 function getClientIp(request: NextRequest): string {
   return (
