@@ -74,8 +74,8 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const ip = getClientIp(request);
 
-  // CSRF protection for state-changing API routes
-  if (pathname.startsWith("/api/") && isStateChanging(request.method)) {
+  // CSRF protection for state-changing API routes (skip auth routes)
+  if (pathname.startsWith("/api/") && !pathname.includes("/api/auth/") && isStateChanging(request.method)) {
     if (!checkCsrf(request)) {
       return NextResponse.json(
         { error: "CSRF validation failed" },
@@ -126,7 +126,7 @@ export function middleware(request: NextRequest) {
   );
   response.headers.set(
     "Content-Security-Policy",
-    "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none';"
+    "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https: http:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none';"
   );
 
   return response;

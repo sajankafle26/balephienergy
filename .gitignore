@@ -36,6 +36,13 @@ yarn-error.log*
 # vercel
 .vercel
 
+# seed scripts
+seed*.js
+
+# uploads (regenerated)
+public/uploads/*
+!public/uploads/.gitkeep
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

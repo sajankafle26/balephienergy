@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -19,18 +18,36 @@ export default function AdminLogin() {
     setLoading(true);
     setError("");
 
-    const result = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    });
+    try {
+      // 1. Get CSRF token from NextAuth
+      const csrfRes = await fetch("/api/auth/csrf");
+      const { csrfToken } = await csrfRes.json();
 
-    if (result?.error) {
-      setError("Invalid email or password");
-      setLoading(false);
-    } else {
-      router.push("/admin");
+      // 2. Submit credentials with CSRF token
+      const res = await fetch("/api/auth/callback/credentials", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          email,
+          password,
+          csrfToken,
+          callbackUrl: "/admin",
+          json: "true",
+        }),
+        redirect: "manual",
+      });
+
+      if (res.status === 200 || res.status === 302) {
+        router.push("/admin");
+        router.refresh();
+      } else {
+        setError("Invalid email or password");
+      }
+    } catch {
+      setError("Something went wrong. Please try again.");
     }
+
+    setLoading(false);
   };
 
   return (
