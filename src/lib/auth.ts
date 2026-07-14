@@ -1,10 +1,5 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
-
-const ADMIN_EMAIL = "admin@balephi.com";
-const ADMIN_PASSWORD_HASH =
-  "$2b$12$BS0P6NBigvDIVbeCI/yPNOfBudjh2Ju92Y0.QyY6i6tm5kaf3NtAC";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
@@ -19,25 +14,21 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return null;
         }
 
-        if (credentials.email !== ADMIN_EMAIL) {
-          return null;
+        const adminEmail = process.env.ADMIN_EMAIL;
+        const adminPassword = process.env.ADMIN_PASSWORD;
+
+        if (
+          credentials.email === adminEmail &&
+          credentials.password === adminPassword
+        ) {
+          return {
+            id: "admin-1",
+            email: adminEmail,
+            name: "Admin",
+          };
         }
 
-        const passwordMatch = await bcrypt.compare(
-          String(credentials.password),
-          ADMIN_PASSWORD_HASH
-        );
-
-        if (!passwordMatch) {
-          return null;
-        }
-
-        return {
-          id: "admin-1",
-          email: ADMIN_EMAIL,
-          name: "Admin",
-          role: "admin",
-        };
+        return null;
       },
     }),
   ],
