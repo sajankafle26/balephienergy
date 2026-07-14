@@ -63,9 +63,6 @@ export default function HeroSection() {
             </span>
             {hero.title.split(hero.titleHighlight)[1] || ""}
           </h1>
-          <p className="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl leading-relaxed">
-            {hero.subtitle}
-          </p>
           <div className="flex flex-wrap gap-4">
             <a
               href={hero.ctaPrimaryLink}

@@ -2,7 +2,6 @@
 
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import TopBar from "@/components/TopBar";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { FaFilePdf, FaDownload, FaNewspaper, FaChartBar, FaUsers, FaFileContract, FaBook } from "react-icons/fa";
@@ -63,7 +62,6 @@ function DownloadsContent() {
 
   return (
     <>
-      <TopBar />
       <Navbar />
       <main className="pt-8 bg-slate-50 pb-16 min-h-[60vh]">
         <div className="max-w-7xl mx-auto px-4">
@@ -151,7 +149,6 @@ export default function DownloadsPage() {
     <Suspense
       fallback={
         <>
-          <TopBar />
           <Navbar />
           <main className="pt-8 bg-slate-50 pb-16 min-h-[60vh]">
             <div className="max-w-7xl mx-auto px-4 flex items-center justify-center min-h-[40vh]">

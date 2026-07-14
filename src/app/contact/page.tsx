@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import TopBar from "@/components/TopBar";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { FaPhone, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
@@ -48,7 +47,6 @@ export default function ContactPage() {
 
   return (
     <>
-      <TopBar />
       <Navbar />
       <main className="pt-8 bg-slate-50 pb-16 min-h-[60vh]">
         <div className="max-w-7xl mx-auto px-4">

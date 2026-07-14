@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import TopBar from "@/components/TopBar";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -49,7 +48,6 @@ export default function TeamPage() {
   if (loading) {
     return (
       <>
-        <TopBar />
         <Navbar />
         <main className="pt-8 bg-slate-50 pb-16 min-h-[60vh]">
           <div className="max-w-7xl mx-auto px-4">
@@ -68,7 +66,6 @@ export default function TeamPage() {
 
   return (
     <>
-      <TopBar />
       <Navbar />
       <main className="pt-8 bg-slate-50 pb-16 min-h-[60vh]">
         <div className="max-w-7xl mx-auto px-4">

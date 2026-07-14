@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { FaBars, FaChevronDown } from "react-icons/fa";
 
 interface MenuItem {
@@ -34,6 +35,7 @@ const defaultMenu: MenuItem[] = [
 ];
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [menuItems, setMenuItems] = useState<MenuItem[]>(defaultMenu);
@@ -69,6 +71,10 @@ export default function Navbar() {
     setMobileExpanded((prev) => ({ ...prev, [idx]: !prev[idx] }));
   };
 
+  const isActive = (href: string) => pathname === href;
+  const hasActiveChild = (item: MenuItem) =>
+    item.children?.some((child) => pathname === child.href);
+
   return (
     <header
       className={`bg-white sticky top-0 z-50 transition-all duration-300 ${
@@ -103,7 +109,9 @@ export default function Navbar() {
               <div key={idx} className="relative group">
                 <a
                   href={item.href === "#" ? "#" : item.href}
-                  className="nav-link hover:text-primary transition-colors flex items-center"
+                  className={`nav-link transition-colors flex items-center ${
+                    hasActiveChild(item) ? "text-primary font-semibold" : "hover:text-primary"
+                  }`}
                 >
                   {item.label}{" "}
                   <FaChevronDown className="text-[10px] ml-1.5 opacity-70" />
@@ -113,7 +121,9 @@ export default function Navbar() {
                     <Link
                       key={childIdx}
                       href={child.href}
-                      className="dropdown-item"
+                      className={`dropdown-item ${
+                        isActive(child.href) ? "text-primary font-semibold bg-primary/5" : ""
+                      }`}
                     >
                       {child.label}
                     </Link>
@@ -124,7 +134,9 @@ export default function Navbar() {
               <Link
                 key={idx}
                 href={item.href}
-                className="nav-link hover:text-primary transition-colors"
+                className={`nav-link transition-colors ${
+                  isActive(item.href) ? "text-primary font-semibold" : "hover:text-primary"
+                }`}
               >
                 {item.label}
               </Link>
@@ -163,7 +175,9 @@ export default function Navbar() {
               <div key={idx} className="border-b border-slate-100 pb-2">
                 <button
                   onClick={() => toggleMobileExpand(idx)}
-                  className="text-slate-600 font-semibold mb-2 flex items-center justify-between w-full text-left"
+                  className={`font-semibold mb-2 flex items-center justify-between w-full text-left ${
+                    hasActiveChild(item) ? "text-primary" : "text-slate-600"
+                  }`}
                 >
                   {item.label}
                   <FaChevronDown
@@ -179,7 +193,11 @@ export default function Navbar() {
                         key={childIdx}
                         href={child.href}
                         onClick={() => setMobileOpen(false)}
-                        className="text-slate-500 hover:text-primary"
+                        className={`transition-colors ${
+                          isActive(child.href)
+                            ? "text-primary font-semibold"
+                            : "text-slate-500 hover:text-primary"
+                        }`}
                       >
                         {child.label}
                       </Link>
@@ -192,7 +210,9 @@ export default function Navbar() {
                 key={idx}
                 href={item.href}
                 onClick={() => setMobileOpen(false)}
-                className="text-slate-600 border-b border-slate-100 pb-2 font-medium"
+                className={`border-b border-slate-100 pb-2 font-medium transition-colors ${
+                  isActive(item.href) ? "text-primary" : "text-slate-600"
+                }`}
               >
                 {item.label}
               </Link>

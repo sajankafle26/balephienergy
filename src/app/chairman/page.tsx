@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import TopBar from "@/components/TopBar";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -28,7 +27,6 @@ export default function ChairmanPage() {
 
   return (
     <>
-      <TopBar />
       <Navbar />
       <main className="pt-16 bg-white pb-16 min-h-[60vh]">
         <div className="max-w-7xl mx-auto px-4">
